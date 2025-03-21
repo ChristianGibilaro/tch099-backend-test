@@ -1,8 +1,22 @@
 
 
-
-
-
+-- table structure for table `activities` 
+CREATE TABLE `activities` (
+  `ID` varchar(45) NOT NULL,
+  `` varchar() NOT NULL,
+  `Pseudo` varchar(35) NOT NULL,
+  `Description` text NOT NULL,
+  `Email` varchar(320) NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `level_id` varchar(50) NOT NULL,
+  `coach_id` int(11) NOT NULL,
+  `schedule_day` varchar(20) NOT NULL,
+  `schedule_time` varchar(20) NOT NULL,
+  `location_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`coach_id`) REFERENCES `coaches` (`id`),
+  FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 
