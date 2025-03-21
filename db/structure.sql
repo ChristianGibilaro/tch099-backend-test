@@ -18,7 +18,7 @@ CREATE TABLE `activities` (
   FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
+test2
 
 
 
