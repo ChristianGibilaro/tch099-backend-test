@@ -1,3 +1,18 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+-- __________________________________________________________ CODE DU PROF TCH056 ___________________________________________________-
+
 -- table structure for table `coaches`
 CREATE TABLE `coaches` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
