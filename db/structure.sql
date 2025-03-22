@@ -1,29 +1,113 @@
 
+/*
 
--- table structure for table `activities` 
-CREATE TABLE `activities` (
-  `ID` varchar(45) NOT NULL,
+Copy-Paste Template
+
+-- table structure for table `` 
+CREATE TABLE `` (
+
+  -- Unique & Key
+  `ID` int() UNIQUE NOT NULL AUTO_INCREMENT,
+  `` varchar() NOT NULL UNIQUE,
+  
+  -- NOT NULL
   `` varchar() NOT NULL,
-  `Pseudo` varchar(35) NOT NULL,
-  `Description` text NOT NULL,
-  `Email` varchar(320) NOT NULL,
-  `image` varchar(255) NOT NULL,
-  `level_id` varchar(50) NOT NULL,
-  `coach_id` int(11) NOT NULL,
-  `schedule_day` varchar(20) NOT NULL,
-  `schedule_time` varchar(20) NOT NULL,
-  `location_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`coach_id`) REFERENCES `coaches` (`id`),
-  FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`)
+  `` int() NOT NULL
+
+  --Nullable
+  `` varchar(),
+  `` text,
+  `` int(),
+
+--Connections
+  PRIMARY KEY (`ID`),
+  FOREIGN KEY (``) REFERENCES `` (``),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-test2
+*/
+
+-- table structure for table `user` 
+CREATE TABLE `User` (
+  -- Unique & Key
+  `ID` int(32) UNIQUE NOT NULL AUTO_INCREMENT,
+  `Image` varchar(255) UNIQUE NOT NULL,
+
+  -- NOT NULL
+  `Pseudo` varchar(35) NOT NULL,
+  `Name` varchar(35) NOT NULL,
+  `Email` varchar(320) NOT NULL,
+  `Password` varchar(255) NOT NULL,
+  `Last_Login` DATE NOT NULL,
+  `LanguageID` int(10) NOT NULL
+  `Creation_Date` timestamp NULL DEFAULT current_timestamp(),
+
+  --Nullable
+  `PositionID` int(16),
+  `Description` text,
+  `Birth` DATE,
+
+  --Connections
+  PRIMARY KEY (`ID`),
+  FOREIGN KEY (`PositionID`) REFERENCES `Position` (`ID`),
+  FOREIGN KEY (`LanguageID`) REFERENCES `Language` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+-- table structure for table `activity` 
+CREATE TABLE `Activity` (
+
+  -- Unique & Key
+  `ID` int(32) UNIQUE NOT NULL AUTO_INCREMENT,
+  `Title` varchar(70) NOT NULL UNIQUE,
+  
+  -- NOT NULL
+  `IsSport` BIT NOT NULL,
+  `Main_Img` varchar(255) NOT NULL,
+  `Description` text NOT NULL,
+  `Creation_Date` timestamp NULL DEFAULT current_timestamp(),
+  
+  --Nullable
+  `Logo_Img` varchar(255),
+  `Point_Value` varchar(35),
+  `Word_4_Player` varchar(35),
+  `Word_4_Teammate` varchar(35),
+  `Word_4_Playing` varchar(35),
+  `Live_url` text,
+  `Live_Desc` text,
+  `Main_Color` varchar(32),
+  `Second_Color` varchar(32),
+  `Friend_Main_Color` varchar(32),
+  `Firend_Second_Color` varchar(32),
+
+--Connections
+  PRIMARY KEY (`ID`),
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+-- table structure for table `` 
+CREATE TABLE `` (
+
+  -- Unique & Key
+  `ID` int() UNIQUE NOT NULL AUTO_INCREMENT,
+  `` varchar() NOT NULL UNIQUE,
+  
+  -- NOT NULL
+  `` varchar() NOT NULL,
+  `` int() NOT NULL
+
+  --Nullable
+  `` varchar(),
+  `` text,
+  `` int(),
+
+--Connections
+  PRIMARY KEY (`ID`),
+  FOREIGN KEY (``) REFERENCES `` (``),
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
 
-
-
+/*
 
 -- __________________________________________________________ CODE DU PROF TCH056 ___________________________________________________-
 
