@@ -3,6 +3,8 @@
 
 Copy-Paste Template
 
+--__________________________________________________________________________
+
 -- table structure for table `` 
 CREATE TABLE `` (
 
@@ -12,7 +14,7 @@ CREATE TABLE `` (
   
   -- NOT NULL
   `` varchar() NOT NULL,
-  `` int() NOT NULL
+  `` int() NOT NULL,
 
   --Nullable
   `` varchar(),
@@ -21,11 +23,23 @@ CREATE TABLE `` (
 
 --Connections
   PRIMARY KEY (`ID`),
-  FOREIGN KEY (``) REFERENCES `` (``),
+  FOREIGN KEY (``) REFERENCES `` (`ID`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+MODS:
+-UserID -­> int(32)
+-Desc -> text
+-Creation_Date -> timestamp
+-Img -> varchar(255)
+-MatchID -> int(64) 
+-New Match: End-Date timestamp
+-yyyy_Date & xxxx_time -­(FUSION)-> zzzz_date TIMEDATE
+-Rename Match: Limit_time & Limit_date -(FUSION)-> Opening_End DATETIME
 
 */
 
+--__________________________________________________________________________
 
 -- table structure for table `user` 
 CREATE TABLE `User` (
@@ -35,7 +49,7 @@ CREATE TABLE `User` (
 
   -- NOT NULL
   `Pseudo` varchar(35) NOT NULL,
-  `Name` varchar(35) NOT NULL,
+  `Name` varchar(70) NOT NULL,
   `Email` varchar(320) NOT NULL,
   `Password` varchar(255) NOT NULL,
   `Last_Login` DATE NOT NULL,
@@ -53,6 +67,7 @@ CREATE TABLE `User` (
   FOREIGN KEY (`LanguageID`) REFERENCES `Language` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--__________________________________________________________________________
 
 -- table structure for table `activity` 
 CREATE TABLE `Activity` (
@@ -84,27 +99,76 @@ CREATE TABLE `Activity` (
   PRIMARY KEY (`ID`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--__________________________________________________________________________
 
--- table structure for table `` 
-CREATE TABLE `` (
+-- table structure for table `Team` 
+CREATE TABLE `Team` (
 
   -- Unique & Key
-  `ID` int() UNIQUE NOT NULL AUTO_INCREMENT,
-  `` varchar() NOT NULL UNIQUE,
+  `ID` int(64) UNIQUE NOT NULL AUTO_INCREMENT,
   
   -- NOT NULL
-  `` varchar() NOT NULL,
-  `` int() NOT NULL
+  `ActivityID` int(32) NOT NULL,
+  `Name` varchar(35) NOT NULL,
+  `Description` text NOT NULL,
+  `Creation_Date` timestamp NULL DEFAULT current_timestamp(),
 
   --Nullable
-  `` varchar(),
-  `` text,
-  `` int(),
+  `Main_Img` varchar(255),
+  `Logo_Img` varchar(255),
+  `Main_Color` varchar(32),
+  `Second_Color` varchar(32),
 
 --Connections
   PRIMARY KEY (`ID`),
-  FOREIGN KEY (``) REFERENCES `` (``),
+  FOREIGN KEY (`ActivityID`) REFERENCES `Activity` (`ID`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--__________________________________________________________________________
+
+-- table structure for table `Match` 
+CREATE TABLE `Match` (
+
+  -- Unique & Key
+  `ID` int(64) UNIQUE NOT NULL AUTO_INCREMENT,
+  
+  -- NOT NULL
+  `Is_Public` bit NOT NULL,
+  `UserID` int(32) NOT NULL,
+  `Creation_Date` timestamp NULL DEFAULT current_timestamp(),
+  
+
+  `` varchar() NOT NULL,
+  `` int() NOT NULL,
+
+  --Nullable
+  `End_Date` DATETIME,
+  `Opening_End` DATETIME,
+  `Description` text,
+  `TeamID` int(64),
+  `ActivityID` int(32),
+  `LevelID` int(16),
+
+--Connections
+  PRIMARY KEY (`ID`),
+  FOREIGN KEY (`TeamID`) REFERENCES `Team` (`ID`),
+  FOREIGN KEY (`ActivityID`) REFERENCES `Activity` (`ID`),
+  FOREIGN KEY (`LevelID`) REFERENCES `Level` (`ID`),
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

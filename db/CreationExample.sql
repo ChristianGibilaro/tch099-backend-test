@@ -7,7 +7,7 @@ CREATE TABLE `ClassName` (
   
   -- NOT NULL
   `` varchar() NOT NULL,
-  `` int() NOT NULL
+  `` int() NOT NULL,
 
   --Nullable
   `` varchar(),
