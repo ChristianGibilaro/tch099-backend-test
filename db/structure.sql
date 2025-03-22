@@ -26,6 +26,7 @@ CREATE TABLE `` (
 
 */
 
+
 -- table structure for table `user` 
 CREATE TABLE `User` (
   -- Unique & Key
