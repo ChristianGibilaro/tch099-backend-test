@@ -40,17 +40,9 @@ CREATE TABLE `` (
 
 
 
-MODS:
--UserID -­> int(32)
--Desc -> text
--Creation_Date -> timestamp
--Img -> varchar(255)
--MatchID -> int(64) 
--New Match: End-Date timestamp
--yyyy_Date & xxxx_time -­(FUSION)-> zzzz_date TIMEDATE
--Rename Match: Limit_time & Limit_date -(FUSION)-> Opening_End DATETIME
--Position Local_time -> Local_Time
--Environement -> Environment
+MODS a faire au diagrame logique:
+TO DO:
+
 
 */
 
