@@ -402,7 +402,7 @@ CREATE TABLE `UserFriend` (
 
 --__________________________________________________________________________
 
--- table structure for table `UserFriend` 
+-- table structure for table `UserBlocked` 
 CREATE TABLE `UserBlocked` (
 
   -- NOT NULL
@@ -478,6 +478,176 @@ CREATE TABLE `AdminActivity` (
 --Connections
   FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
   FOREIGN KEY (`ActivityID`) REFERENCES `Activity` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--__________________________________________________________________________
+
+-- table structure for table `UserTeam` 
+CREATE TABLE `UserTeam` (
+
+  -- NOT NULL
+  `UserID` int(32) NOT NULL,
+  `TeamID` int(64) NOT NULL,
+  `RankID` int(16) NOT NULL,
+  `Game_Count` int(16) NOT NULL,
+  `Joined_Date` date NOT NULL,
+
+--Connections
+  FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
+  FOREIGN KEY (`TeamID`) REFERENCES `Team` (`ID`),
+  FOREIGN KEY (`RankID`) REFERENCES `Rank` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--__________________________________________________________________________
+
+-- table structure for table `AdminTeam` 
+CREATE TABLE `AdminTeam` (
+
+  -- NOT NULL
+  `UserID` int(32) NOT NULL,
+  `TeamID` int(64) NOT NULL,
+  `Password` varchar(255) NOT NULL,
+
+--Connections
+  FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
+  FOREIGN KEY (`TeamID`) REFERENCES `Team` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--__________________________________________________________________________
+
+-- table structure for table `UserMatch` 
+CREATE TABLE `UserMatch` (
+
+  -- NOT NULL
+  `UserID` int(32) NOT NULL,
+  `MatchID` int(64) NOT NULL,
+  `Stats_Encoded` varchar(255),
+
+--Connections
+  FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
+  FOREIGN KEY (`MatchID`) REFERENCES `Match` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--__________________________________________________________________________
+
+-- table structure for table `AdminMatch` 
+CREATE TABLE `AdminMatch` (
+
+  -- NOT NULL
+  `UserID` int(32) NOT NULL,
+  `MatchID` int(64) NOT NULL,
+  `Password` varchar(255) NOT NULL,
+
+--Connections
+  FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
+  FOREIGN KEY (`MatchID`) REFERENCES `Match` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--__________________________________________________________________________
+
+-- table structure for table `ImgLib` 
+CREATE TABLE `ImgLib` (
+
+  -- NOT NULL
+  `UserID` int(32),
+  `TeamID` int(64),
+  `MatchID` int(64),
+  `ActivityID` int(32),
+  `Url` varchar(2048),
+  `Index` int(255),
+  `Img` varchar(255),
+
+--Connections
+  FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
+  FOREIGN KEY (`TeamID`) REFERENCES `Team` (`ID`),
+  FOREIGN KEY (`MatchID`) REFERENCES `Match` (`ID`),
+  FOREIGN KEY (`ActivityID`) REFERENCES `Activity` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--__________________________________________________________________________
+
+-- table structure for table `Invitation` 
+CREATE TABLE `Invitation` (
+
+  -- NOT NULL
+  `Name` varchar(70) NOT NULL,
+  `TeamID` int(64) NOT NULL,
+  `UserID` int(32) NOT NULL,
+  `RankID` int(16) NOT NULL,
+  `Expiration_date` date,
+
+--Connections
+  FOREIGN KEY (`TeamID`) REFERENCES `Team` (`ID`),
+  FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
+  FOREIGN KEY (`RankID`) REFERENCES `Rank` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--__________________________________________________________________________
+
+-- table structure for table `ChatCreator` 
+CREATE TABLE `ChatCreator` (
+
+  -- NOT NULL
+  `UserID` int(32) NOT NULL,
+  `TeamID` int(64),
+  `ChatID` int(32) NOT NULL,
+
+--Connections
+  FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
+  FOREIGN KEY (`TeamID`) REFERENCES `Team` (`ID`),
+  FOREIGN KEY (`ChatID`) REFERENCES `Chat` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--__________________________________________________________________________
+
+-- table structure for table `Chat` 
+CREATE TABLE `Chat` (
+
+  -- Unique & Key
+  `ID` int(32) UNIQUE NOT NULL AUTO_INCREMENT,
+
+  -- NOT NULL
+  `Name` varchar(32) NOT NULL,
+  `Creation_Date` timestamp NULL DEFAULT current_timestamp(),
+
+--Connections
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--__________________________________________________________________________
+
+-- table structure for table `ChatMessage` 
+CREATE TABLE `ChatMessage` (
+
+  -- NOT NULL
+  `ChatID` int(32) NOT NULL,
+  `MessageID` int(64) NOT NULL,
+
+--Connections
+  FOREIGN KEY (`ChatID`) REFERENCES `Chat` (`ID`),
+  FOREIGN KEY (`MessageID`) REFERENCES `Message` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--__________________________________________________________________________
+
+-- table structure for table `Message` 
+CREATE TABLE `Message` (
+
+  -- Unique & Key
+  `ID` int(64) UNIQUE NOT NULL AUTO_INCREMENT,
+
+  -- NOT NULL
+  `UserID` int(32) NOT NULL,
+  `Content` varchar(1024) NOT NULL,
+  `Date` date NOT NULL,
+  `Time` time NOT NULL,
+
+  --Nullable
+  `File` varchar(1024),
+
+--Connections
+  PRIMARY KEY (`ID`),
+  FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 
