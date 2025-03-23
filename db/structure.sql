@@ -386,6 +386,100 @@ CREATE TABLE `Match` (
   FOREIGN KEY (`LevelID`) REFERENCES `Level` (`ID`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--__________________________________________________________________________
+
+-- table structure for table `UserFriend` 
+CREATE TABLE `UserFriend` (
+
+  -- NOT NULL
+  `UserID` int(32) NOT NULL,
+  `FriendID` int(32) NOT NULL,
+
+--Connections
+  FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
+  FOREIGN KEY (`FriendID`) REFERENCES `User` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--__________________________________________________________________________
+
+-- table structure for table `UserFriend` 
+CREATE TABLE `UserBlocked` (
+
+  -- NOT NULL
+  `UserID` int(32) NOT NULL,
+  `BlockedID` int(32) NOT NULL,
+
+--Connections
+  FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
+  FOREIGN KEY (`BlockedID`) REFERENCES `User` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--__________________________________________________________________________
+
+-- table structure for table `Notification` 
+CREATE TABLE `Notification` (
+
+  -- Unique & Key
+  `ID` int(24) UNIQUE NOT NULL AUTO_INCREMENT,
+
+  -- NOT NULL
+  `Content` varchar(512) NOT NULL,
+  `Date` date NOT NULL,
+  `Time` time NOT NULL,
+  `Expiration_hours` int(10) NOT NULL,
+
+--Connections
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--__________________________________________________________________________
+
+-- table structure for table `UserNotification` 
+CREATE TABLE `UserNotification` (
+
+  -- NOT NULL
+  `UserID` int(32) NOT NULL,
+  `TeamID` int(64),
+  `NotificationID` int(24),
+
+--Connections
+  FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
+  FOREIGN KEY (`TeamID`) REFERENCES `Team` (`ID`),
+  FOREIGN KEY (`NotificationID`) REFERENCES `Notification` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--__________________________________________________________________________
+
+-- table structure for table `UserActivity` 
+CREATE TABLE `UserActivity` (
+
+  -- NOT NULL
+  `UserID` int(32) NOT NULL,
+  `ActivityID` int(32) NOT NULL,
+  `Game_Count` int(16) NOT NULL,
+  `Joined_Date` date NOT NULL,
+  `Encoded_Stats` varchar(32768),
+
+--Connections
+  FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
+  FOREIGN KEY (`ActivityID`) REFERENCES `Activity` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--__________________________________________________________________________
+
+-- table structure for table `AdminActivity` 
+CREATE TABLE `AdminActivity` (
+
+  -- NOT NULL
+  `UserID` int(32) NOT NULL,
+  `ActivityID` int(32) NOT NULL,
+  `Password` varchar(255) NOT NULL,
+
+--Connections
+  FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
+  FOREIGN KEY (`ActivityID`) REFERENCES `Activity` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 
 
