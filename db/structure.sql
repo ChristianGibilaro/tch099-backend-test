@@ -52,6 +52,7 @@ chat:
 -content to text
 dATE ET time fusuion ti date timestamp
 file to int(225)
+ActivityData -> Activite_Player_Count
 */
 
 CREATE TABLE `Position` (
@@ -464,8 +465,116 @@ CREATE TABLE `ChatMessage` (
   DEFAULT CHARSET=utf8mb4 
   COLLATE=utf8mb4_general_ci;
 
+CREATE TABLE `ActivityFilter` (
+  `ID` INT(8) UNIQUE NOT NULL AUTO_INCREMENT,
+  `PositionFilterID` INT(16) NOT NULL,
+  `TypeFilterID` INT(16) NOT NULL,
+  `LanguageFilterID` INT(16) NOT NULL,
+  `EnvironmentFilterID` INT(16) NOT NULL,
+  FOREIGN KEY (`PositionFilterID`) REFERENCES `Position` (`ID`),
+  FOREIGN KEY (`TypeFilterID`) REFERENCES `Type` (`ID`)
+  FOREIGN KEY (`LanguageFilterID`) REFERENCES `Language` (`ID`),
+  FOREIGN KEY (`Environment`) REFERENCES `Environment` (`ID`)
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
+  CREATE TABLE `TeamFilter` (
+  `ID` INT(8) UNIQUE NOT NULL AUTO_INCREMENT,
+  `PositionFilterID` INT(16) NOT NULL,
+  `TypeFilterID` INT(16) NOT NULL,
+  `LanguageFilterID` INT(16) NOT NULL,
+  `EnvironmentFilterID` INT(16) NOT NULL,
+  FOREIGN KEY (`PositionFilterID`) REFERENCES `Position` (`ID`),
+  FOREIGN KEY (`TypeFilterID`) REFERENCES `Type` (`ID`)
+  FOREIGN KEY (`LanguageFilterID`) REFERENCES `Language` (`ID`),
+  FOREIGN KEY (`Environment`) REFERENCES `Environment` (`ID`)
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
+  CREATE TABLE `MatchFilter` (
+  `ID` INT(8) UNIQUE NOT NULL AUTO_INCREMENT,
+  `PositionFilterID` INT(16) NOT NULL,
+  `TypeFilterID` INT(16) NOT NULL,
+  `LanguageFilterID` INT(16) NOT NULL,
+  `EnvironmentFilterID` INT(16) NOT NULL,
+  FOREIGN KEY (`PositionFilterID`) REFERENCES `Position` (`ID`),
+  FOREIGN KEY (`TypeFilterID`) REFERENCES `Type` (`ID`)
+  FOREIGN KEY (`LanguageFilterID`) REFERENCES `Language` (`ID`),
+  FOREIGN KEY (`Environment`) REFERENCES `Environment` (`ID`)
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `ActivityData` (
+  `ActivityFilterID` INT(8) NOT NULL,
+  `ActivityID` INT(32) NOT NULL,
+  `PositionID` INT(16) NOT NULL,
+  `TypeID` INT(16) NOT NULL,
+  `LanguageID` INT(16) NOT NULL,
+  `EnvironmentID` INT(16) NOT NULL,
+  `Team_Count` INT(16) NOT NULL,
+  `QuickTeam_Count` INT(16) NOT NULL,
+  `Player_Count` INT(32) NOT NULL,
+  `Active_Player_Count` INT(32) NOT NULL,
+  `Rating` INT(8),
+
+  FOREIGN KEY (`ActivityID`) REFERENCES `Activity` (`ID`),
+  FOREIGN KEY (`FilterID`) REFERENCES `FilterID` (`ID`),
+  FOREIGN KEY (`PositionFilterID`) REFERENCES `Position` (`ID`),
+  FOREIGN KEY (`TypeFilterID`) REFERENCES `Type` (`ID`)
+  FOREIGN KEY (`LanguageFilterID`) REFERENCES `Language` (`ID`),
+  FOREIGN KEY (`Environment`) REFERENCES `Environment` (`ID`)
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
+
+  CREATE TABLE `TeamData` (
+  `TeamFilterID` INT(8) NOT NULL,
+  `ID` INT(32) NOT NULL,
+  `PositionID` INT(16) NOT NULL,
+  `TypeID` INT(16) NOT NULL,
+  `LanguageID` INT(16) NOT NULL,
+  `EnvironmentID` INT(16) NOT NULL,
+  `Match_Count` INT(32) NOT NULL,
+  `Max_Player` INT(16) NOT NULL,
+  `Player_Count` INT(32) NOT NULL,
+  `Active_Player_Count` INT(32) NOT NULL,
+  `Rating` INT(8),
+  
+  FOREIGN KEY (`TeeamID`) REFERENCES `Team` (`TeamID`),
+  FOREIGN KEY (`FilterID`) REFERENCES `FilterID` (`ID`),
+  FOREIGN KEY (`PositionFilterID`) REFERENCES `Position` (`ID`),
+  FOREIGN KEY (`TypeFilterID`) REFERENCES `Type` (`ID`)
+  FOREIGN KEY (`LanguageFilterID`) REFERENCES `Language` (`ID`),
+  FOREIGN KEY (`Environment`) REFERENCES `Environment` (`ID`)
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
+
+  CREATE TABLE `MatchData` (
+  `MatchFilterID` INT(8) NOT NULL,
+  `MatchID` INT(32) NOT NULL,
+  `PositionID` INT(16) NOT NULL,
+  `TypeID` INT(16) NOT NULL,
+  `LanguageID` INT(16) NOT NULL,
+  `EnvironmentID` INT(16) NOT NULL,
+  `Team_Count` INT(16) NOT NULL,
+  `QuickTeam_Count` INT(16) NOT NULL,
+  `Player_Count` INT(32) NOT NULL,
+  `Active_Player_Count` INT(32) NOT NULL,
+  `Rating` INT(8),
+  
+  FOREIGN KEY (`MatchID`) REFERENCES `Match` (`ID`),
+  FOREIGN KEY (`MatchFilterID`) REFERENCES `MatchFilterID` (`ID`),
+  FOREIGN KEY (`PositionFilterID`) REFERENCES `Position` (`ID`),
+  FOREIGN KEY (`TypeFilterID`) REFERENCES `Type` (`ID`)
+  FOREIGN KEY (`LanguageFilterID`) REFERENCES `Language` (`ID`),
+  FOREIGN KEY (`Environment`) REFERENCES `Environment` (`ID`)
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
 /*
 
