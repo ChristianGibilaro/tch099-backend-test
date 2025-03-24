@@ -46,613 +46,415 @@ TO DO:
 
 */
 
---__________________________________________________________________________
-
--- table structure for table `Position` 
 CREATE TABLE `Position` (
+  `ID` INT(16) UNIQUE NOT NULL AUTO_INCREMENT,
+  `Name` VARCHAR(70) NOT NULL,
+  `Country` VARCHAR(70),
+  `State` VARCHAR(70),
+  `City` VARCHAR(70),
+  `Street` VARCHAR(70),
+  `Number` INT(16),
+  `GPS` TEXT,
+  `Local_Time` INT(8),
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB 
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
-  -- Unique & Key
-  `ID` int(16) UNIQUE NOT NULL AUTO_INCREMENT,
-  
-  -- NOT NULL
-  `Name` varchar(70) NOT NULL,
-
-  --Nullable
-  `Country` varchar(70),
-  `State` varchar(70),
-  `City` varchar(70),
-  `Street` varchar(70),
-  `Number` int(16),
-  `GPS` text,
-  `Local_Time` int(8),
-
---Connections
-  PRIMARY KEY (`ID`),
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---__________________________________________________________________________
-
--- table structure for table `PositionFilter` 
 CREATE TABLE `PositionFilter` (
+  `ID` INT(16) UNIQUE NOT NULL AUTO_INCREMENT,
+  `Name` VARCHAR(70) NOT NULL UNIQUE,
+  `Count` INT(16) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB 
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
-  -- Unique & Key
-  `ID` int(16) UNIQUE NOT NULL AUTO_INCREMENT,
-  `Name` varchar(70) NOT NULL UNIQUE,
-  
-  -- NOT NULL
-  `Count` int(16) NOT NULL,
-
---Connections
-  PRIMARY KEY (`ID`),
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---__________________________________________________________________________
-
--- table structure for table `PositionArray` 
 CREATE TABLE `PositionArray` (
-  
-  -- NOT NULL
-  `PositionID` int(16) NOT NULL,
-  `PositionFilterID` int(16) NOT NULL,
-
---Connections
+  `PositionID` INT(16) NOT NULL,
+  `PositionFilterID` INT(16) NOT NULL,
   FOREIGN KEY (`PositionID`) REFERENCES `Position` (`ID`),
-  FOREIGN KEY (`PositionFilterID`) REFERENCES `PositionFilter` (`ID`),
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  FOREIGN KEY (`PositionFilterID`) REFERENCES `PositionFilter` (`ID`)
+) ENGINE=InnoDB 
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
---__________________________________________________________________________
-
--- table structure for table `Type` 
 CREATE TABLE `Type` (
+  `ID` INT(16) UNIQUE NOT NULL AUTO_INCREMENT,
+  `Name` VARCHAR(35) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB 
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
-  -- Unique & Key
-  `ID` int(16) UNIQUE NOT NULL AUTO_INCREMENT,
-  
-  -- NOT NULL
-  `Name` varchar(35) NOT NULL,
-
---Connections
-  PRIMARY KEY (`ID`),
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---__________________________________________________________________________
-
--- table structure for table `TypeFilter` 
 CREATE TABLE `TypeFilter` (
+  `ID` INT(16) UNIQUE NOT NULL AUTO_INCREMENT,
+  `Name` VARCHAR(70) NOT NULL UNIQUE,
+  `Count` INT(16) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB 
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
-  -- Unique & Key
-  `ID` int(16) UNIQUE NOT NULL AUTO_INCREMENT,
-  `Name` varchar(70) NOT NULL UNIQUE,
-  
-  -- NOT NULL
-  `Count` int(16) NOT NULL,
-
---Connections
-  PRIMARY KEY (`ID`),
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---__________________________________________________________________________
-
--- table structure for table `TypeArray` 
 CREATE TABLE `TypeArray` (
-  
-  -- NOT NULL
-  `TypeID` int(16) NOT NULL,
-  `TypeFilterID` int(16) NOT NULL,
-
---Connections
+  `TypeID` INT(16) NOT NULL,
+  `TypeFilterID` INT(16) NOT NULL,
   FOREIGN KEY (`TypeID`) REFERENCES `Type` (`ID`),
-  FOREIGN KEY (`TypeFilterID`) REFERENCES `TypeFilter` (`ID`),
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  FOREIGN KEY (`TypeFilterID`) REFERENCES `TypeFilter` (`ID`)
+) ENGINE=InnoDB 
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
---__________________________________________________________________________
-
--- table structure for table `Language` 
 CREATE TABLE `Language` (
+  `ID` INT(10) UNIQUE NOT NULL AUTO_INCREMENT,
+  `Name` VARCHAR(70) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB 
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
-  -- Unique & Key
-  `ID` int(10) UNIQUE NOT NULL AUTO_INCREMENT,
-  
-  -- NOT NULL
-  `Name` varchar(70) NOT NULL,
-
---Connections
-  PRIMARY KEY (`ID`),
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---__________________________________________________________________________
-
--- table structure for table `TypeFilter` 
 CREATE TABLE `LanguageFilter` (
+  `ID` INT(16) UNIQUE NOT NULL AUTO_INCREMENT,
+  `Name` VARCHAR(255) NOT NULL UNIQUE,
+  `Count` INT(10) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB 
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
-  -- Unique & Key
-  `ID` int(16) UNIQUE NOT NULL AUTO_INCREMENT,
-  `Name` varchar(255) NOT NULL UNIQUE,
-  
-  -- NOT NULL
-  `Count` int(10) NOT NULL,
-
---Connections
-  PRIMARY KEY (`ID`),
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---__________________________________________________________________________
-
--- table structure for table `TypeArray` 
 CREATE TABLE `LanguageArray` (
-  
-  -- NOT NULL
-  `LanguageID` int(10) NOT NULL,
-  `LanguageFilterID` int(16) NOT NULL,
-
---Connections
+  `LanguageID` INT(10) NOT NULL,
+  `LanguageFilterID` INT(16) NOT NULL,
   FOREIGN KEY (`LanguageID`) REFERENCES `Language` (`ID`),
-  FOREIGN KEY (`LanguageFilterID`) REFERENCES `LanguageFilter` (`ID`),
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  FOREIGN KEY (`LanguageFilterID`) REFERENCES `LanguageFilter` (`ID`)
+) ENGINE=InnoDB 
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
---__________________________________________________________________________
-
--- table structure for table `Environment` 
 CREATE TABLE `Environment` (
+  `ID` INT(10) UNIQUE NOT NULL AUTO_INCREMENT,
+  `Name` VARCHAR(70) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB 
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
-  -- Unique & Key
-  `ID` int(10) UNIQUE NOT NULL AUTO_INCREMENT,
-  
-  -- NOT NULL
-  `Name` varchar(70) NOT NULL,
-
---Connections
-  PRIMARY KEY (`ID`),
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---__________________________________________________________________________
-
--- table structure for table `TypeFilter` 
 CREATE TABLE `EnvironmentFilter` (
+  `ID` INT(16) UNIQUE NOT NULL AUTO_INCREMENT,
+  `Name` VARCHAR(255) NOT NULL UNIQUE,
+  `Count` INT(10) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
-  -- Unique & Key
-  `ID` int(16) UNIQUE NOT NULL AUTO_INCREMENT,
-  `Name` varchar(255) NOT NULL UNIQUE,
-  
-  -- NOT NULL
-  `Count` int(10) NOT NULL,
-
---Connections
-  PRIMARY KEY (`ID`),
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---__________________________________________________________________________
-
--- table structure for table `TypeArray` 
 CREATE TABLE `EnvironmentArray` (
-  
-  -- NOT NULL
-  `EnvironmentID` int(10) NOT NULL,
-  `EnvironmentFilterID` int(16) NOT NULL,
-
---Connections
+  `EnvironmentID` INT(10) NOT NULL,
+  `EnvironmentFilterID` INT(16) NOT NULL,
   FOREIGN KEY (`EnvironmentID`) REFERENCES `Environment` (`ID`),
-  FOREIGN KEY (`EnvironmentFilterID`) REFERENCES `EnvironmentFilter` (`ID`),
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  FOREIGN KEY (`EnvironmentFilterID`) REFERENCES `EnvironmentFilter` (`ID`)
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
---__________________________________________________________________________
+CREATE TABLE `Activity` (
+  `ID` INT(32) UNIQUE NOT NULL AUTO_INCREMENT,
+  `Title` VARCHAR(70) NOT NULL UNIQUE,
+  `IsSport` BIT NOT NULL,
+  `Main_Img` VARCHAR(255) NOT NULL,
+  `Description` TEXT NOT NULL,
+  `Creation_Date` TIMESTAMP NULL DEFAULT current_timestamp(),
+  `Logo_Img` VARCHAR(255),
+  `Point_Value` VARCHAR(35),
+  `Word_4_Player` VARCHAR(35),
+  `Word_4_Teammate` VARCHAR(35),
+  `Word_4_Playing` VARCHAR(35),
+  `Live_url` TEXT,
+  `Live_Desc` TEXT,
+  `Main_Color` VARCHAR(32),
+  `Second_Color` VARCHAR(32),
+  `Friend_Main_Color` VARCHAR(32),
+  `Friend_Second_Color` VARCHAR(32),
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
--- table structure for table `user` 
+CREATE TABLE `Team` (
+  `ID` INT(64) UNIQUE NOT NULL AUTO_INCREMENT,
+  `ActivityID` INT(32) NOT NULL,
+  `Name` VARCHAR(35) NOT NULL,
+  `Description` TEXT NOT NULL,
+  `Creation_Date` TIMESTAMP NULL DEFAULT current_timestamp(),
+  `Main_Img` VARCHAR(255),
+  `Logo_Img` VARCHAR(255),
+  `Main_Color` VARCHAR(32),
+  `Second_Color` VARCHAR(32),
+  PRIMARY KEY (`ID`),
+  FOREIGN KEY (`ActivityID`) REFERENCES `Activity` (`ID`)
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `Rank` (
+  `ID` INT(16) UNIQUE NOT NULL AUTO_INCREMENT,
+  `Name` VARCHAR(35) NOT NULL,
+  `Image` VARCHAR(255),
+  `Index` INT(8),
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `Level` (
+  `ID` INT(16) UNIQUE NOT NULL AUTO_INCREMENT,
+  `Name` VARCHAR(35) NOT NULL,
+  `Img` VARCHAR(255),
+  `Index` INT(10),
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `ActivityLevel` (
+  `Name` VARCHAR(35) NOT NULL,
+  `ActivityID` INT(32) NOT NULL,
+  `LevelID` INT(16) NOT NULL,
+  FOREIGN KEY (`ActivityID`) REFERENCES `Activity` (`ID`),
+  FOREIGN KEY (`LevelID`) REFERENCES `Level` (`ID`)
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
+
 CREATE TABLE `User` (
-  -- Unique & Key
-  `ID` int(32) UNIQUE NOT NULL AUTO_INCREMENT,
-  `Image` varchar(255) UNIQUE NOT NULL,
-
-  -- NOT NULL
-  `Pseudo` varchar(35) NOT NULL,
-  `Name` varchar(70) NOT NULL,
-  `Email` varchar(320) NOT NULL,
-  `Password` varchar(255) NOT NULL,
+  `ID` INT(32) UNIQUE NOT NULL AUTO_INCREMENT,
+  `Image` VARCHAR(255) UNIQUE NOT NULL,
+  `Pseudo` VARCHAR(35) NOT NULL,
+  `Name` VARCHAR(70) NOT NULL,
+  `Email` VARCHAR(320) NOT NULL,
+  `Password` VARCHAR(255) NOT NULL,
   `Last_Login` DATE NOT NULL,
-  `LanguageID` int(10) NOT NULL
-  `Creation_Date` timestamp NULL DEFAULT current_timestamp(),
-
-  --Nullable
-  `PositionID` int(16),
-  `Description` text,
+  `LanguageID` INT(10) NOT NULL, 
+  `Creation_Date` TIMESTAMP NULL DEFAULT current_timestamp(),
+  `PositionID` INT(16),
+  `Description` TEXT,
   `Birth` DATE,
-
-  --Connections
   PRIMARY KEY (`ID`),
   FOREIGN KEY (`PositionID`) REFERENCES `Position` (`ID`),
   FOREIGN KEY (`LanguageID`) REFERENCES `Language` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
---__________________________________________________________________________
-
--- table structure for table `activity` 
-CREATE TABLE `Activity` (
-
-  -- Unique & Key
-  `ID` int(32) UNIQUE NOT NULL AUTO_INCREMENT,
-  `Title` varchar(70) NOT NULL UNIQUE,
-  
-  -- NOT NULL
-  `IsSport` BIT NOT NULL,
-  `Main_Img` varchar(255) NOT NULL,
-  `Description` text NOT NULL,
-  `Creation_Date` timestamp NULL DEFAULT current_timestamp(),
-  
-  --Nullable
-  `Logo_Img` varchar(255),
-  `Point_Value` varchar(35),
-  `Word_4_Player` varchar(35),
-  `Word_4_Teammate` varchar(35),
-  `Word_4_Playing` varchar(35),
-  `Live_url` text,
-  `Live_Desc` text,
-  `Main_Color` varchar(32),
-  `Second_Color` varchar(32),
-  `Friend_Main_Color` varchar(32),
-  `Firend_Second_Color` varchar(32),
-
---Connections
-  PRIMARY KEY (`ID`),
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---__________________________________________________________________________
-
--- table structure for table `Team` 
-CREATE TABLE `Team` (
-
-  -- Unique & Key
-  `ID` int(64) UNIQUE NOT NULL AUTO_INCREMENT,
-  
-  -- NOT NULL
-  `ActivityID` int(32) NOT NULL,
-  `Name` varchar(35) NOT NULL,
-  `Description` text NOT NULL,
-  `Creation_Date` timestamp NULL DEFAULT current_timestamp(),
-
-  --Nullable
-  `Main_Img` varchar(255),
-  `Logo_Img` varchar(255),
-  `Main_Color` varchar(32),
-  `Second_Color` varchar(32),
-
---Connections
-  PRIMARY KEY (`ID`),
-  FOREIGN KEY (`ActivityID`) REFERENCES `Activity` (`ID`),
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---__________________________________________________________________________
-
--- table structure for table `Level` 
-CREATE TABLE `Level` (
-
-  -- Unique & Key
-  `ID` int(16) UNIQUE NOT NULL AUTO_INCREMENT,
-  
-  -- NOT NULL
-  `Name` varchar(35) NOT NULL,
-
-  --Nullable
-  `Img` varchar(255),
-  `Index` int(10),
-
---Connections
-  PRIMARY KEY (`ID`),
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---__________________________________________________________________________
-
--- table structure for table `ActivityLevel` 
-CREATE TABLE `ActivityLevel` (
-  
-  -- NOT NULL
-  `Name` varchar(35) NOT NULL,
-  `ActivityID` int(32) NOT NULL,
-  `LevelID` int(16) NOT NULL,
-
---Connections
-  FOREIGN KEY (`ActivityID`) REFERENCES `Activity` (`ID`),
-  FOREIGN KEY (`LevelID`) REFERENCES `Level` (`ID`),
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---__________________________________________________________________________
-
--- table structure for table `Match` 
 CREATE TABLE `Match` (
-
-  -- Unique & Key
-  `ID` int(64) UNIQUE NOT NULL AUTO_INCREMENT,
-  
-  -- NOT NULL
-  `Is_Public` bit NOT NULL,
-  `UserID` int(32) NOT NULL,
-  `Creation_Date` timestamp NULL DEFAULT current_timestamp(),
-  
-
-  `` varchar() NOT NULL,
-  `` int() NOT NULL,
-
-  --Nullable
+  `ID` INT(64) UNIQUE NOT NULL AUTO_INCREMENT,
+  `Is_Public` BIT NOT NULL,
+  `UserID` INT(32) NOT NULL,
+  `Creation_Date` TIMESTAMP NULL DEFAULT current_timestamp(),
   `End_Date` DATETIME,
   `Opening_End` DATETIME,
-  `Description` text,
-  `TeamID` int(64),
-  `ActivityID` int(32),
-  `LevelID` int(16),
-
---Connections
+  `Description` TEXT,
+  `TeamID` INT(64),
+  `ActivityID` INT(32),
+  `LevelID` INT(16),
   PRIMARY KEY (`ID`),
   FOREIGN KEY (`TeamID`) REFERENCES `Team` (`ID`),
   FOREIGN KEY (`ActivityID`) REFERENCES `Activity` (`ID`),
-  FOREIGN KEY (`LevelID`) REFERENCES `Level` (`ID`),
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  FOREIGN KEY (`LevelID`) REFERENCES `Level` (`ID`)
+  -- Pour ajouter la FK user → FOREIGN KEY (`UserID`) REFERENCES `User`(`ID`)
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
---__________________________________________________________________________
-
--- table structure for table `UserFriend` 
 CREATE TABLE `UserFriend` (
-
-  -- NOT NULL
-  `UserID` int(32) NOT NULL,
-  `FriendID` int(32) NOT NULL,
-
---Connections
+  `UserID` INT(32) NOT NULL,
+  `FriendID` INT(32) NOT NULL,
   FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
   FOREIGN KEY (`FriendID`) REFERENCES `User` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
---__________________________________________________________________________
-
--- table structure for table `UserBlocked` 
 CREATE TABLE `UserBlocked` (
-
-  -- NOT NULL
-  `UserID` int(32) NOT NULL,
-  `BlockedID` int(32) NOT NULL,
-
---Connections
+  `UserID` INT(32) NOT NULL,
+  `BlockedID` INT(32) NOT NULL,
   FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
   FOREIGN KEY (`BlockedID`) REFERENCES `User` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
---__________________________________________________________________________
-
--- table structure for table `Notification` 
 CREATE TABLE `Notification` (
-
-  -- Unique & Key
-  `ID` int(24) UNIQUE NOT NULL AUTO_INCREMENT,
-
-  -- NOT NULL
-  `Content` varchar(512) NOT NULL,
-  `Date` date NOT NULL,
-  `Time` time NOT NULL,
-  `Expiration_hours` int(10) NOT NULL,
-
---Connections
+  `ID` INT(24) UNIQUE NOT NULL AUTO_INCREMENT,
+  `Content` VARCHAR(512) NOT NULL,
+  `Date` DATE NOT NULL,
+  `Time` TIME NOT NULL,
+  `Expiration_hours` INT(10) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
---__________________________________________________________________________
-
--- table structure for table `UserNotification` 
 CREATE TABLE `UserNotification` (
-
-  -- NOT NULL
-  `UserID` int(32) NOT NULL,
-  `TeamID` int(64),
-  `NotificationID` int(24),
-
---Connections
+  `UserID` INT(32) NOT NULL,
+  `TeamID` INT(64),
+  `NotificationID` INT(24),
   FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
   FOREIGN KEY (`TeamID`) REFERENCES `Team` (`ID`),
   FOREIGN KEY (`NotificationID`) REFERENCES `Notification` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
---__________________________________________________________________________
-
--- table structure for table `UserActivity` 
 CREATE TABLE `UserActivity` (
-
-  -- NOT NULL
-  `UserID` int(32) NOT NULL,
-  `ActivityID` int(32) NOT NULL,
-  `Game_Count` int(16) NOT NULL,
-  `Joined_Date` date NOT NULL,
-  `Encoded_Stats` varchar(32768),
-
---Connections
+  `UserID` INT(32) NOT NULL,
+  `ActivityID` INT(32) NOT NULL,
+  `Game_Count` INT(16) NOT NULL,
+  `Joined_Date` DATE NOT NULL,
+  `Encoded_Stats` VARCHAR(255),
   FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
   FOREIGN KEY (`ActivityID`) REFERENCES `Activity` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
---__________________________________________________________________________
-
--- table structure for table `AdminActivity` 
 CREATE TABLE `AdminActivity` (
-
-  -- NOT NULL
-  `UserID` int(32) NOT NULL,
-  `ActivityID` int(32) NOT NULL,
-  `Password` varchar(255) NOT NULL,
-
---Connections
+  `UserID` INT(32) NOT NULL,
+  `ActivityID` INT(32) NOT NULL,
+  `Password` VARCHAR(255) NOT NULL,
   FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
   FOREIGN KEY (`ActivityID`) REFERENCES `Activity` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
---__________________________________________________________________________
-
--- table structure for table `UserTeam` 
 CREATE TABLE `UserTeam` (
-
-  -- NOT NULL
-  `UserID` int(32) NOT NULL,
-  `TeamID` int(64) NOT NULL,
-  `RankID` int(16) NOT NULL,
-  `Game_Count` int(16) NOT NULL,
-  `Joined_Date` date NOT NULL,
-
---Connections
+  `UserID` INT(32) NOT NULL,
+  `TeamID` INT(64) NOT NULL,
+  `RankID` INT(16) NOT NULL,
+  `Game_Count` INT(16) NOT NULL,
+  `Joined_Date` DATE NOT NULL,
   FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
   FOREIGN KEY (`TeamID`) REFERENCES `Team` (`ID`),
   FOREIGN KEY (`RankID`) REFERENCES `Rank` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
---__________________________________________________________________________
-
--- table structure for table `AdminTeam` 
 CREATE TABLE `AdminTeam` (
-
-  -- NOT NULL
-  `UserID` int(32) NOT NULL,
-  `TeamID` int(64) NOT NULL,
-  `Password` varchar(255) NOT NULL,
-
---Connections
+  `UserID` INT(32) NOT NULL,
+  `TeamID` INT(64) NOT NULL,
+  `Password` VARCHAR(255) NOT NULL,
   FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
   FOREIGN KEY (`TeamID`) REFERENCES `Team` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
---__________________________________________________________________________
-
--- table structure for table `UserMatch` 
 CREATE TABLE `UserMatch` (
-
-  -- NOT NULL
-  `UserID` int(32) NOT NULL,
-  `MatchID` int(64) NOT NULL,
-  `Stats_Encoded` varchar(255),
-
---Connections
+  `UserID` INT(32) NOT NULL,
+  `MatchID` INT(64) NOT NULL,
+  `Stats_Encoded` VARCHAR(255),
   FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
   FOREIGN KEY (`MatchID`) REFERENCES `Match` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
---__________________________________________________________________________
-
--- table structure for table `AdminMatch` 
 CREATE TABLE `AdminMatch` (
-
-  -- NOT NULL
-  `UserID` int(32) NOT NULL,
-  `MatchID` int(64) NOT NULL,
-  `Password` varchar(255) NOT NULL,
-
---Connections
+  `UserID` INT(32) NOT NULL,
+  `MatchID` INT(64) NOT NULL,
+  `Password` VARCHAR(255) NOT NULL,
   FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
   FOREIGN KEY (`MatchID`) REFERENCES `Match` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
---__________________________________________________________________________
-
--- table structure for table `ImgLib` 
 CREATE TABLE `ImgLib` (
-
-  -- NOT NULL
-  `UserID` int(32),
-  `TeamID` int(64),
-  `MatchID` int(64),
-  `ActivityID` int(32),
-  `Url` varchar(2048),
-  `Index` int(255),
-  `Img` varchar(255),
-
---Connections
+  `UserID` INT(32),
+  `TeamID` INT(64),
+  `MatchID` INT(64),
+  `ActivityID` INT(32),
+  `Url` VARCHAR(2048),
+  `Index` INT(255),
+  `Img` VARCHAR(255),
   FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
   FOREIGN KEY (`TeamID`) REFERENCES `Team` (`ID`),
   FOREIGN KEY (`MatchID`) REFERENCES `Match` (`ID`),
   FOREIGN KEY (`ActivityID`) REFERENCES `Activity` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
---__________________________________________________________________________
-
--- table structure for table `Invitation` 
 CREATE TABLE `Invitation` (
-
-  -- NOT NULL
-  `Name` varchar(70) NOT NULL,
-  `TeamID` int(64) NOT NULL,
-  `UserID` int(32) NOT NULL,
-  `RankID` int(16) NOT NULL,
-  `Expiration_date` date,
-
---Connections
+  `Name` VARCHAR(70) NOT NULL,
+  `TeamID` INT(64) NOT NULL,
+  `UserID` INT(32) NOT NULL,
+  `RankID` INT(16) NOT NULL,
+  `Expiration_date` DATE,
   FOREIGN KEY (`TeamID`) REFERENCES `Team` (`ID`),
   FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
   FOREIGN KEY (`RankID`) REFERENCES `Rank` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
---__________________________________________________________________________
+CREATE TABLE `TeamRank` (
+  `ID` INT(16) UNIQUE NOT NULL AUTO_INCREMENT,
+  `Name` VARCHAR(70) NOT NULL,
+  `RankID` INT(16) NOT NULL,
+  `TeamID` INT(64) NOT NULL,
+  `Index` INT(8),
+  `Image` VARCHAR(255),
+  PRIMARY KEY (`ID`),
+  FOREIGN KEY (`RankID`) REFERENCES `Rank` (`ID`),
+  FOREIGN KEY (`TeamID`) REFERENCES `Team` (`ID`)
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_general_ci;
 
--- table structure for table `ChatCreator` 
+CREATE TABLE `Chat` (
+  `ID` INT(32) UNIQUE NOT NULL AUTO_INCREMENT,
+  `Name` VARCHAR(32) NOT NULL,
+  `Creation_Date` TIMESTAMP NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
+
 CREATE TABLE `ChatCreator` (
-
-  -- NOT NULL
-  `UserID` int(32) NOT NULL,
-  `TeamID` int(64),
-  `ChatID` int(32) NOT NULL,
-
---Connections
+  `UserID` INT(32) NOT NULL,
+  `TeamID` INT(64),
+  `ChatID` INT(32) NOT NULL,
   FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
   FOREIGN KEY (`TeamID`) REFERENCES `Team` (`ID`),
   FOREIGN KEY (`ChatID`) REFERENCES `Chat` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
---__________________________________________________________________________
-
--- table structure for table `Chat` 
-CREATE TABLE `Chat` (
-
-  -- Unique & Key
-  `ID` int(32) UNIQUE NOT NULL AUTO_INCREMENT,
-
-  -- NOT NULL
-  `Name` varchar(32) NOT NULL,
-  `Creation_Date` timestamp NULL DEFAULT current_timestamp(),
-
---Connections
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---__________________________________________________________________________
-
--- table structure for table `ChatMessage` 
-CREATE TABLE `ChatMessage` (
-
-  -- NOT NULL
-  `ChatID` int(32) NOT NULL,
-  `MessageID` int(64) NOT NULL,
-
---Connections
-  FOREIGN KEY (`ChatID`) REFERENCES `Chat` (`ID`),
-  FOREIGN KEY (`MessageID`) REFERENCES `Message` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---__________________________________________________________________________
-
--- table structure for table `Message` 
 CREATE TABLE `Message` (
-
-  -- Unique & Key
-  `ID` int(64) UNIQUE NOT NULL AUTO_INCREMENT,
-
-  -- NOT NULL
-  `UserID` int(32) NOT NULL,
-  `Content` varchar(1024) NOT NULL,
-  `Date` date NOT NULL,
-  `Time` time NOT NULL,
-
-  --Nullable
-  `File` varchar(1024),
-
---Connections
+  `ID` INT(64) UNIQUE NOT NULL AUTO_INCREMENT,
+  `UserID` INT(32) NOT NULL,
+  `Content` VARCHAR(1024) NOT NULL,
+  `Date` DATE NOT NULL,
+  `Time` TIME NOT NULL,
+  `File` VARCHAR(1024),
   PRIMARY KEY (`ID`),
   FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
-
-
-
+CREATE TABLE `ChatMessage` (
+  `ChatID` INT(32) NOT NULL,
+  `MessageID` INT(64) NOT NULL,
+  FOREIGN KEY (`ChatID`) REFERENCES `Chat` (`ID`),
+  FOREIGN KEY (`MessageID`) REFERENCES `Message` (`ID`)
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4 
+  COLLATE=utf8mb4_general_ci;
 
 
 
