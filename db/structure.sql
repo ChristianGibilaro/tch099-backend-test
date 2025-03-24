@@ -56,11 +56,11 @@ ActivityData -> Activite_Player_Count
 */
 
 CREATE TABLE `Position` (
-  --unique
+  -- unique
   `ID` INT(16) UNIQUE NOT NULL AUTO_INCREMENT,
-  --not nullable
+  -- not nullable
   `Name` VARCHAR(70) NOT NULL,
-  --nullable
+  -- nullable
   `Country` VARCHAR(70),
   `State` VARCHAR(70),
   `City` VARCHAR(70),
@@ -68,7 +68,7 @@ CREATE TABLE `Position` (
   `Number` INT(16),
   `GPS` TEXT,
   `Local_Time` INT(8),
-  --connections
+  -- connections
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB 
   DEFAULT CHARSET=utf8mb4 
@@ -414,6 +414,7 @@ CREATE TABLE `Invitation` (
   COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `TeamRank` (
+  `ID` INT(32) UNIQUE NOT NULL,
   `Name` VARCHAR(70) NOT NULL,
   `RankID` INT(16) NOT NULL,
   `TeamID` INT(64) NOT NULL,
@@ -472,9 +473,9 @@ CREATE TABLE `ActivityFilter` (
   `LanguageFilterID` INT(16) NOT NULL,
   `EnvironmentFilterID` INT(16) NOT NULL,
   FOREIGN KEY (`PositionFilterID`) REFERENCES `Position` (`ID`),
-  FOREIGN KEY (`TypeFilterID`) REFERENCES `Type` (`ID`)
+  FOREIGN KEY (`TypeFilterID`) REFERENCES `Type` (`ID`),
   FOREIGN KEY (`LanguageFilterID`) REFERENCES `Language` (`ID`),
-  FOREIGN KEY (`Environment`) REFERENCES `Environment` (`ID`)
+  FOREIGN KEY (`EnvironmentFilterID`) REFERENCES `Environment` (`ID`)
 ) ENGINE=InnoDB
   DEFAULT CHARSET=utf8mb4 
   COLLATE=utf8mb4_general_ci;
@@ -485,13 +486,17 @@ CREATE TABLE `ActivityFilter` (
   `TypeFilterID` INT(16) NOT NULL,
   `LanguageFilterID` INT(16) NOT NULL,
   `EnvironmentFilterID` INT(16) NOT NULL,
-  FOREIGN KEY (`PositionFilterID`) REFERENCES `Position` (`ID`),
-  FOREIGN KEY (`TypeFilterID`) REFERENCES `Type` (`ID`)
-  FOREIGN KEY (`LanguageFilterID`) REFERENCES `Language` (`ID`),
-  FOREIGN KEY (`Environment`) REFERENCES `Environment` (`ID`)
-) ENGINE=InnoDB
-  DEFAULT CHARSET=utf8mb4 
+  PRIMARY KEY (`ID`),
+
+  FOREIGN KEY (`PositionFilterID`)   REFERENCES `PositionFilter` (`ID`),
+  FOREIGN KEY (`TypeFilterID`)       REFERENCES `TypeFilter` (`ID`),
+  FOREIGN KEY (`LanguageFilterID`)   REFERENCES `LanguageFilter` (`ID`),
+  FOREIGN KEY (`EnvironmentFilterID`)REFERENCES `EnvironmentFilter` (`ID`)
+)
+ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
   COLLATE=utf8mb4_general_ci;
+
 
   CREATE TABLE `MatchFilter` (
   `ID` INT(8) UNIQUE NOT NULL AUTO_INCREMENT,
@@ -500,79 +505,84 @@ CREATE TABLE `ActivityFilter` (
   `LanguageFilterID` INT(16) NOT NULL,
   `EnvironmentFilterID` INT(16) NOT NULL,
   FOREIGN KEY (`PositionFilterID`) REFERENCES `Position` (`ID`),
-  FOREIGN KEY (`TypeFilterID`) REFERENCES `Type` (`ID`)
+  FOREIGN KEY (`TypeFilterID`) REFERENCES `Type` (`ID`),
   FOREIGN KEY (`LanguageFilterID`) REFERENCES `Language` (`ID`),
-  FOREIGN KEY (`Environment`) REFERENCES `Environment` (`ID`)
+  FOREIGN KEY (`EnvironmentFilterID`) REFERENCES `Environment` (`ID`)
 ) ENGINE=InnoDB
   DEFAULT CHARSET=utf8mb4 
   COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `ActivityData` (
-  `ActivityFilterID` INT(8) NOT NULL,
-  `ActivityID` INT(32) NOT NULL,
-  `PositionID` INT(16) NOT NULL,
-  `TypeID` INT(16) NOT NULL,
-  `LanguageID` INT(16) NOT NULL,
-  `EnvironmentID` INT(16) NOT NULL,
-  `Team_Count` INT(16) NOT NULL,
-  `QuickTeam_Count` INT(16) NOT NULL,
-  `Player_Count` INT(32) NOT NULL,
-  `Active_Player_Count` INT(32) NOT NULL,
-  `Rating` INT(8),
+  `ActivityFilterID`  INT(8)  NOT NULL,
+  `ActivityID`        INT(32) NOT NULL,
+  `PositionID`        INT(16) NOT NULL,
+  `TypeID`            INT(16) NOT NULL,
+  `LanguageID`        INT(16) NOT NULL,
+  `EnvironmentID`     INT(16) NOT NULL,
 
-  FOREIGN KEY (`ActivityID`) REFERENCES `Activity` (`ID`),
-  FOREIGN KEY (`FilterID`) REFERENCES `FilterID` (`ID`),
-  FOREIGN KEY (`PositionFilterID`) REFERENCES `Position` (`ID`),
-  FOREIGN KEY (`TypeFilterID`) REFERENCES `Type` (`ID`)
-  FOREIGN KEY (`LanguageFilterID`) REFERENCES `Language` (`ID`),
-  FOREIGN KEY (`Environment`) REFERENCES `Environment` (`ID`)
-) ENGINE=InnoDB
-  DEFAULT CHARSET=utf8mb4 
+  `Team_Count`        INT(16) NOT NULL,
+  `QuickTeam_Count`   INT(16) NOT NULL,
+  `Player_Count`      INT(32) NOT NULL,
+  `Active_Player_Count` INT(32) NOT NULL,
+  `Rating`            INT(8),
+  FOREIGN KEY (`ActivityFilterID`)  REFERENCES `ActivityFilter` (`ID`),
+  FOREIGN KEY (`ActivityID`)        REFERENCES `Activity`       (`ID`),
+  FOREIGN KEY (`PositionID`)        REFERENCES `Position`       (`ID`),
+  FOREIGN KEY (`TypeID`)            REFERENCES `Type`           (`ID`),
+  FOREIGN KEY (`LanguageID`)        REFERENCES `Language`       (`ID`),
+  FOREIGN KEY (`EnvironmentID`)     REFERENCES `Environment`    (`ID`)
+)
+ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
   COLLATE=utf8mb4_general_ci;
 
-  CREATE TABLE `TeamData` (
-  `TeamFilterID` INT(8) NOT NULL,
-  `ID` INT(32) NOT NULL,
-  `PositionID` INT(16) NOT NULL,
-  `TypeID` INT(16) NOT NULL,
-  `LanguageID` INT(16) NOT NULL,
-  `EnvironmentID` INT(16) NOT NULL,
-  `Match_Count` INT(32) NOT NULL,
-  `Max_Player` INT(16) NOT NULL,
-  `Player_Count` INT(32) NOT NULL,
-  `Active_Player_Count` INT(32) NOT NULL,
-  `Rating` INT(8),
-  
-  FOREIGN KEY (`TeeamID`) REFERENCES `Team` (`TeamID`),
-  FOREIGN KEY (`FilterID`) REFERENCES `FilterID` (`ID`),
-  FOREIGN KEY (`PositionFilterID`) REFERENCES `Position` (`ID`),
-  FOREIGN KEY (`TypeFilterID`) REFERENCES `Type` (`ID`)
-  FOREIGN KEY (`LanguageFilterID`) REFERENCES `Language` (`ID`),
-  FOREIGN KEY (`Environment`) REFERENCES `Environment` (`ID`)
-) ENGINE=InnoDB
-  DEFAULT CHARSET=utf8mb4 
+
+CREATE TABLE `TeamData` (
+  `TeamFilterID`       INT(8)  NOT NULL,
+  `TeamID`             INT(32) NOT NULL,
+  `PositionID`         INT(16) NOT NULL,
+  `TypeID`             INT(16) NOT NULL,
+  `LanguageID`         INT(16) NOT NULL,
+  `EnvironmentID`      INT(16) NOT NULL,
+  `Match_Count`        INT(32) NOT NULL,
+  `Max_Player`         INT(16) NOT NULL,
+  `Player_Count`       INT(32) NOT NULL,
+  `Active_Player_Count`INT(32) NOT NULL,
+  `Rating`             INT(8),
+
+  FOREIGN KEY (`TeamFilterID`)  REFERENCES `TeamFilter`     (`ID`),
+  FOREIGN KEY (`TeamID`)        REFERENCES `Team`           (`ID`),
+  FOREIGN KEY (`PositionID`)    REFERENCES `Position`       (`ID`),
+  FOREIGN KEY (`TypeID`)        REFERENCES `Type`           (`ID`),
+  FOREIGN KEY (`LanguageID`)    REFERENCES `Language`       (`ID`),
+  FOREIGN KEY (`EnvironmentID`) REFERENCES `Environment`    (`ID`)
+)
+ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
   COLLATE=utf8mb4_general_ci;
 
-  CREATE TABLE `MatchData` (
-  `MatchFilterID` INT(8) NOT NULL,
-  `MatchID` INT(32) NOT NULL,
-  `PositionID` INT(16) NOT NULL,
-  `TypeID` INT(16) NOT NULL,
-  `LanguageID` INT(16) NOT NULL,
-  `EnvironmentID` INT(16) NOT NULL,
-  `Team_Count` INT(16) NOT NULL,
-  `QuickTeam_Count` INT(16) NOT NULL,
-  `Player_Count` INT(32) NOT NULL,
+CREATE TABLE `MatchData` (
+  `MatchFilterID`       INT(8)  NOT NULL,
+  `MatchID`             INT(32) NOT NULL,
+  `PositionID`          INT(16) NOT NULL,
+  `TypeID`              INT(16) NOT NULL,
+  `LanguageID`          INT(16) NOT NULL,
+  `EnvironmentID`       INT(16) NOT NULL,
+
+  `Team_Count`          INT(16) NOT NULL,
+  `QuickTeam_Count`     INT(16) NOT NULL,
+  `Player_Count`        INT(32) NOT NULL,
   `Active_Player_Count` INT(32) NOT NULL,
-  `Rating` INT(8),
-  
-  FOREIGN KEY (`MatchID`) REFERENCES `Match` (`ID`),
-  FOREIGN KEY (`MatchFilterID`) REFERENCES `MatchFilterID` (`ID`),
-  FOREIGN KEY (`PositionFilterID`) REFERENCES `Position` (`ID`),
-  FOREIGN KEY (`TypeFilterID`) REFERENCES `Type` (`ID`)
-  FOREIGN KEY (`LanguageFilterID`) REFERENCES `Language` (`ID`),
-  FOREIGN KEY (`Environment`) REFERENCES `Environment` (`ID`)
-) ENGINE=InnoDB
+  `Rating`              INT(8),
+    
+  FOREIGN KEY (`MatchFilterID`)   REFERENCES `MatchFilter` (`ID`),
+  FOREIGN KEY (`MatchID`)         REFERENCES `Match`       (`ID`),
+  FOREIGN KEY (`PositionID`)      REFERENCES `Position`    (`ID`),
+  FOREIGN KEY (`TypeID`)          REFERENCES `Type`        (`ID`),
+  FOREIGN KEY (`LanguageID`)      REFERENCES `Language`    (`ID`),
+  FOREIGN KEY (`EnvironmentID`)   REFERENCES `Environment` (`ID`)
+)
+ENGINE=InnoDB
   DEFAULT CHARSET=utf8mb4 
   COLLATE=utf8mb4_general_ci;
 
