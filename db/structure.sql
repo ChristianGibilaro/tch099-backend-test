@@ -42,13 +42,24 @@ CREATE TABLE `` (
 
 MODS a faire au diagrame logique:
 TO DO:
-
-
+Type: name -> varchar(70)
+Filters, Count -> int(10)
+live text et url to text
+userNotif : userid to not null
+joined date to timestamp
+encoded data to text
+chat:
+-content to text
+dATE ET time fusuion ti date timestamp
+file to int(225)
 */
 
 CREATE TABLE `Position` (
+  --unique
   `ID` INT(16) UNIQUE NOT NULL AUTO_INCREMENT,
+  --not nullable
   `Name` VARCHAR(70) NOT NULL,
+  --nullable
   `Country` VARCHAR(70),
   `State` VARCHAR(70),
   `City` VARCHAR(70),
@@ -56,6 +67,7 @@ CREATE TABLE `Position` (
   `Number` INT(16),
   `GPS` TEXT,
   `Local_Time` INT(8),
+  --connections
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB 
   DEFAULT CHARSET=utf8mb4 
@@ -64,7 +76,7 @@ CREATE TABLE `Position` (
 CREATE TABLE `PositionFilter` (
   `ID` INT(16) UNIQUE NOT NULL AUTO_INCREMENT,
   `Name` VARCHAR(70) NOT NULL UNIQUE,
-  `Count` INT(16) NOT NULL,
+  `Count` INT(10) NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB 
   DEFAULT CHARSET=utf8mb4 
@@ -81,7 +93,7 @@ CREATE TABLE `PositionArray` (
 
 CREATE TABLE `Type` (
   `ID` INT(16) UNIQUE NOT NULL AUTO_INCREMENT,
-  `Name` VARCHAR(35) NOT NULL,
+  `Name` VARCHAR(70) NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB 
   DEFAULT CHARSET=utf8mb4 
@@ -90,7 +102,7 @@ CREATE TABLE `Type` (
 CREATE TABLE `TypeFilter` (
   `ID` INT(16) UNIQUE NOT NULL AUTO_INCREMENT,
   `Name` VARCHAR(70) NOT NULL UNIQUE,
-  `Count` INT(16) NOT NULL,
+  `Count` INT(10) NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB 
   DEFAULT CHARSET=utf8mb4 
@@ -199,7 +211,7 @@ CREATE TABLE `Team` (
 CREATE TABLE `Rank` (
   `ID` INT(16) UNIQUE NOT NULL AUTO_INCREMENT,
   `Name` VARCHAR(35) NOT NULL,
-  `Image` VARCHAR(255),
+  `Img` VARCHAR(255),
   `Index` INT(8),
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB
@@ -228,9 +240,9 @@ CREATE TABLE `ActivityLevel` (
 
 CREATE TABLE `User` (
   `ID` INT(32) UNIQUE NOT NULL AUTO_INCREMENT,
-  `Image` VARCHAR(255) UNIQUE NOT NULL,
-  `Pseudo` VARCHAR(35) NOT NULL,
-  `Name` VARCHAR(70) NOT NULL,
+  `Img` VARCHAR(255) UNIQUE NOT NULL,
+  `Pseudo` VARCHAR(35) UNIQUE NOT NULL,
+  `Name` VARCHAR(70)UNIQUE  NOT NULL,
   `Email` VARCHAR(320) NOT NULL,
   `Password` VARCHAR(255) NOT NULL,
   `Last_Login` DATE NOT NULL,
@@ -310,8 +322,8 @@ CREATE TABLE `UserActivity` (
   `UserID` INT(32) NOT NULL,
   `ActivityID` INT(32) NOT NULL,
   `Game_Count` INT(16) NOT NULL,
-  `Joined_Date` DATE NOT NULL,
-  `Encoded_Stats` VARCHAR(255),
+  `Joined_Date` TIMESTAMP NULL DEFAULT current_timestamp(),
+  `Encoded_Stats` text,
   FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
   FOREIGN KEY (`ActivityID`) REFERENCES `Activity` (`ID`)
 ) ENGINE=InnoDB
@@ -333,7 +345,7 @@ CREATE TABLE `UserTeam` (
   `TeamID` INT(64) NOT NULL,
   `RankID` INT(16) NOT NULL,
   `Game_Count` INT(16) NOT NULL,
-  `Joined_Date` DATE NOT NULL,
+  `Joined_Date` TIMESTAMP NULL DEFAULT current_timestamp(),
   FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
   FOREIGN KEY (`TeamID`) REFERENCES `Team` (`ID`),
   FOREIGN KEY (`RankID`) REFERENCES `Rank` (`ID`)
@@ -354,7 +366,7 @@ CREATE TABLE `AdminTeam` (
 CREATE TABLE `UserMatch` (
   `UserID` INT(32) NOT NULL,
   `MatchID` INT(64) NOT NULL,
-  `Stats_Encoded` VARCHAR(255),
+  `Stats_Encoded` text,
   FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
   FOREIGN KEY (`MatchID`) REFERENCES `Match` (`ID`)
 ) ENGINE=InnoDB
@@ -377,7 +389,7 @@ CREATE TABLE `ImgLib` (
   `MatchID` INT(64),
   `ActivityID` INT(32),
   `Url` VARCHAR(2048),
-  `Index` INT(255),
+  `Index` INT(8),
   `Img` VARCHAR(255),
   FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`),
   FOREIGN KEY (`TeamID`) REFERENCES `Team` (`ID`),
@@ -401,12 +413,9 @@ CREATE TABLE `Invitation` (
   COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `TeamRank` (
-  `ID` INT(16) UNIQUE NOT NULL AUTO_INCREMENT,
   `Name` VARCHAR(70) NOT NULL,
   `RankID` INT(16) NOT NULL,
   `TeamID` INT(64) NOT NULL,
-  `Index` INT(8),
-  `Image` VARCHAR(255),
   PRIMARY KEY (`ID`),
   FOREIGN KEY (`RankID`) REFERENCES `Rank` (`ID`),
   FOREIGN KEY (`TeamID`) REFERENCES `Team` (`ID`)
@@ -437,10 +446,9 @@ CREATE TABLE `ChatCreator` (
 CREATE TABLE `Message` (
   `ID` INT(64) UNIQUE NOT NULL AUTO_INCREMENT,
   `UserID` INT(32) NOT NULL,
-  `Content` VARCHAR(1024) NOT NULL,
-  `Date` DATE NOT NULL,
-  `Time` TIME NOT NULL,
-  `File` VARCHAR(1024),
+  `Content` text NOT NULL,
+  `Date` TIMESTAMP NULL DEFAULT current_timestamp(),
+  `File` VARCHAR(255),
   PRIMARY KEY (`ID`),
   FOREIGN KEY (`UserID`) REFERENCES `User` (`ID`)
 ) ENGINE=InnoDB
